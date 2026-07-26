@@ -9,3 +9,7 @@ are normalized into rolling Z-scores to generate mean-reversion trading signals.
 optimization across lookback windows and entry/exit thresholds, the model significantly enhanced its 
 risk adjusted performance, raising the backtested Sharpe ratio from 0.57 to 0.91 while reducing maximum 
 drawdown to -9.6%.
+
+Code is heavily biased on training data, futher backtesting is required to highlight whether model works efficiently.
+The next step would be to trade multiple sets of pairs, to avoid stationary and high risk periods of trading.
+Transaction costs need to also be included, affecting gains when a significant amount of trades are performed.
