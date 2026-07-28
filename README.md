@@ -1,16 +1,7 @@
-*****old*****
-This project implements an algorithmic statistical arbitrage strategy in Python to identify and trade 
-cointegrated stock pairs. Traditional pairs trading models rely on static ordinary least squares (OLS) 
-regression to calculate a constant hedge ratio, which fails when market regimes shift over time. 
-To address this parameter drift, this framework uses a Kalman Filter to continuously estimate 
-hedge ratios (β) in real time without lookahead bias, adapting to changing correlations between assets.
+This notebook builds and backtests a pairs trading strategy across a set of tech stocks (NVDA, AAPL, MSFT, AVGO, AMD, GOOG, AMZN, and META), using five years of daily closing prices. It starts by testing every combination of stocks for cointegration using the Engle-Granger test, and for any pair that qualifies, estimates how quickly a divergence between the two tends to close by modelling the spread as an Ornstein-Uhlenbeck process and calculating its half-life.
 
-After screening tech equities using the Engle-Granger cointegration test, residual spread errors 
-are normalized into rolling Z-scores to generate mean-reversion trading signals. Through parameter 
-optimization across lookback windows and entry/exit thresholds, the model significantly enhanced its 
-risk adjusted performance, raising the backtested Sharpe ratio from 0.57 to 0.91 while reducing maximum 
-drawdown to -9.6%.
+Rather than using one fixed hedge ratio for the whole period, the strategy estimates it dynamically with a Kalman filter, updating the pair's intercept and slope each day as new prices come in. The resulting spread is converted into a rolling z-score, and positions are opened when the z-score crosses an entry threshold, closed as it reverts toward zero.
 
-Code is heavily biased on training data, futher backtesting is required to highlight whether model works efficiently.
-The next step would be to trade multiple sets of pairs, to avoid stationary and high risk periods of trading.
-Transaction costs need to also be included, affecting gains when a significant amount of trades are performed.
+A backtesting engine turns these signals into portfolio returns, factoring in leverage, transaction costs on every position change, and interest earned on idle cash, and reports standard performance metrics: net P&L, Sharpe ratio, Calmar ratio, maximum drawdown, win rate, and trade count, all benchmarked against a simple 50/50 buy-and-hold portfolio of the same two stocks. A grid search then sweeps the entry/exit thresholds, lookback window, stop-loss, and Kalman filter noise parameters to find the combinations that maximise Sharpe ratio and, separately, PnL subject to a drawdown limit, using AMZN and GOOG as a worked example, and validates the chosen parameters out-of-sample on a held-out test period.
+
+As the notebook itself notes, tuning parameters this way improves risk-adjusted performance and cuts drawdown noticeably, but at the cost of lower raw PnL out of sample — the natural next step being to trade several optimised pairs at once to capture that risk reduction at a portfolio level.
