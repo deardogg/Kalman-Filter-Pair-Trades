@@ -1,3 +1,4 @@
+*****old*****
 This project implements an algorithmic statistical arbitrage strategy in Python to identify and trade 
 cointegrated stock pairs. Traditional pairs trading models rely on static ordinary least squares (OLS) 
 regression to calculate a constant hedge ratio, which fails when market regimes shift over time. 
