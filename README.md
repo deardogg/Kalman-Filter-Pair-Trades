@@ -6,4 +6,4 @@ A backtesting engine turns these signals into portfolio returns, factoring in le
 
 Tuning parameters this way improves risk-adjusted performance and cuts drawdown noticeably, but at the cost of lower raw PnL out of sample. The next step being to trade several optimised pairs at once to capture that risk reduction at a portfolio level.
 
-Further explanations, findings and improvements given in [report](report.pdf)
+Further explanations, findings and improvements given in [report](Report.pdf)
